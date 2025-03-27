@@ -1,0 +1,27 @@
+{
+    "name": "signalk-wunderground",
+    "version": "0.0.1",
+    "description": "SignalK plugin for submitting weather information to wunderground.com",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "signalk-node-server-plugin"
+    ],
+    "author": "ValkyrieOnWater",
+    "license": "Apache-2.0",
+    "dependencies": {
+      "dateformat": "^4.6.3",
+      "request": "^2.88.0"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/ValkyrieOnWater/signalk-wunderground.git"
+    },
+    "bugs": {
+      "url": "https://github.com/ValkyrieOnWater/signalk-wunderground/issues"
+    },
+    "homepage": "https://github.com/ValkyrieOnWater/signalk-wunderground#readme",
+    "devDependencies": {}
+  }
