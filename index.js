@@ -40,6 +40,7 @@ module.exports = function(app) {
   var temperature;
   var pressure;
   var humidity;
+  var UV;
   var distance;
     var position;
 
@@ -107,6 +108,9 @@ module.exports = function(app) {
         path: 'environment.outside.dewPointTemperature',
         period: POLL_INTERVAL * 1000
       }, {
+        path: 'environment.outside.uv',
+        period: POLL_INTERVAL * 1000
+      }, {
         path: 'environment.outside.pressure',
         period: POLL_INTERVAL * 1000
       }, {
@@ -137,7 +141,7 @@ module.exports = function(app) {
             app.debug('Vessel is more than 400m away from Fixed Location, skipping submission');
             return;
         }
-      let httpOptions = SUBMIT_URL.concat('?ID=', options.stationId, '&PASSWORD=', options.password, '&dateutc=', date, '&winddir=', windDirection, '&windspeedmph=', median(windSpeed), '&windgustmph=', windGust,'&dewptf=', dewpoint, '&tempf=', temperature, '&humidity=', humidity, '&baromin=', pressure, '&action=updateraw');
+      let httpOptions = SUBMIT_URL.concat('?ID=', options.stationId, '&PASSWORD=', options.password, '&dateutc=', date, '&winddir=', windDirection, '&windspeedmph=', median(windSpeed), '&windgustmph=', windGust,'&dewptf=', dewpoint, '&tempf=', temperature, '&humidity=', humidity, '&baromin=', pressure, '&UV=',UV,'&action=updateraw');
       app.debug(`Submitting data: ${httpOptions}`);
       request(httpOptions, function (error, response, body) {
         if ((!error || response.statusCode == 200) && body.trim == 'success') {
@@ -150,6 +154,7 @@ module.exports = function(app) {
         }
         //null all variables whether successful or not
         position = null;
+        UV = null;
         windSpeed = [];
         windGust = null;
         windDirection = null;
@@ -245,6 +250,11 @@ module.exports = function(app) {
         waterTemperature = kelvinToFahrenheit(value);
         waterTemperature = waterTemperature.toFixed(1);
         waterTemperature = parseFloat(waterTemperature);
+        break;
+      case 'environment.outside.uv':
+          UV=value;
+          UV = UV.toFixed(2);
+          UV = parseFloat(UV);
         break;
       case 'environment.outside.temperature':
         temperature = kelvinToFahrenheit(value);
